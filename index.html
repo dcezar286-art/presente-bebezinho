@@ -101,23 +101,36 @@ footer {
 
   <footer>Feito com carinho pra você, meu bebezinho 💖</footer>
 
-  <audio autoplay loop>
-  <source src="musica.mp3" type="audio/mp3">
-</audio>
-
+  <audio id="musica" loop>
+  <source src="musica.mp3" type="audio/mpeg">
+  </audio>
 
   <script>
-    document.getElementById("surpresa").addEventListener("click", () => {
-      for (let i = 0; i < 30; i++) {
-        const heart = document.createElement("div");
-        heart.classList.add("heart");
-        heart.innerHTML = "❤️";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
-        document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 4000);
-      }
-    });
+  const botaoSurpresa = document.getElementById("surpresa");
+  const audio = document.getElementById("musica");
+
+  botaoSurpresa.addEventListener("click", () => {
+    // tenta tocar a música quando a pessoa clicar
+    if (audio) {
+      audio.play().catch(() => {
+        // se der erro, a gente só ignora (alguns navegadores são chatos)
+        console.log("Não foi possível iniciar o áudio automaticamente.");
+      });
+    }
+
+    // chuva de corações
+    for (let i = 0; i < 30; i++) {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 4000);
+    }
+  });
   </script>
+
 </body>
 </html>
