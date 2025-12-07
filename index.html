@@ -109,14 +109,18 @@ footer {
   const botaoSurpresa = document.getElementById("surpresa");
   const audio = document.getElementById("musica");
 
+  // garante que o áudio está liberado
+  audio.volume = 1.0;
+  audio.preload = "auto";
+
   botaoSurpresa.addEventListener("click", () => {
-    // tenta tocar a música quando a pessoa clicar
-    if (audio) {
-      audio.play().catch(() => {
-        // se der erro, a gente só ignora (alguns navegadores são chatos)
-        console.log("Não foi possível iniciar o áudio automaticamente.");
-      });
-    }
+
+    // iPhone/iOS e alguns Android só liberam play depois de um .play() direto em evento
+    audio.play().then(() => {
+      console.log("Música tocando!");
+    }).catch(err => {
+      console.log("Erro ao tocar áudio:", err);
+    });
 
     // chuva de corações
     for (let i = 0; i < 30; i++) {
@@ -126,11 +130,11 @@ footer {
       heart.style.left = Math.random() * 100 + "vw";
       heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
       document.body.appendChild(heart);
-
       setTimeout(() => heart.remove(), 4000);
     }
   });
-  </script>
+</script>
+
 
 </body>
 </html>
